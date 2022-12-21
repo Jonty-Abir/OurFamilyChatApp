@@ -205,6 +205,9 @@ async function removeAllMsg(req, res, next) {
     const msg = await Message.findOneAndDelete({
       conversation_id: req.params.id,
     });
+    const testing = await Message.deleteMany({
+      conversation_id: msg.conversation_id,
+    });
     if (msg.attachment) {
       unlink(
         join(__dirname, `../public/uploads/attachments/${msg.attachment}`),
@@ -219,6 +222,7 @@ async function removeAllMsg(req, res, next) {
       msg: "Message was deleted successfully!",
     });
   } catch (err) {
+    console.log("error code run");
     res.status(500).json({
       errors: {
         common: {
